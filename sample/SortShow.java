@@ -96,8 +96,6 @@ public class SortShow extends JPanel {
         }
 
 
-
-
     ///////////////////////////////////////////////////////////////////////////////////
 
     //this method gets the smallest element in the array of lines_lengths
@@ -119,7 +117,13 @@ public class SortShow extends JPanel {
 			//getting the date and time when the selection sort starts
 			Calendar start = Calendar.getInstance();
 			//Using the selection sort to lines_lengths sort the array
-
+            int index = 0;
+            int n = total_number_of_lines;
+            for(; index < n - 1; index++)
+            {
+                int indexOfSmallest = getIndexOfSmallest(index, n - 1);
+                swap(index, indexOfSmallest);
+            }
 			//You need to complete this part.
 
 			//getting the date and time when the selection sort ends
@@ -128,9 +132,7 @@ public class SortShow extends JPanel {
 			//subtracting the end time with the start time
 	        SortGUI.selectionTime = end.getTime().getTime() - start.getTime().getTime();
 		}
-		
 
-		
 	///////////////////////////////////////////////////////////////////////////////////
 		
 		//recursive merge sort method

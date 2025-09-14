@@ -66,8 +66,55 @@ public class SortShow extends JPanel {
 			//giving j element in lines_lengths the value of temp
 			lines_lengths[j] = temp;
 		}
-		
-		//The selectionSort method
+
+    ///////////////////////////////////////////////////////////////////////////////////
+        public void BubbleSort(){
+
+            //getting the date and time when the selection sort starts
+            Calendar start = Calendar.getInstance();
+
+            int n = total_number_of_lines;
+
+            for(int i = 0; i < n - 1; i++){
+                for(int j = 0; j < n - i - 1; j++){
+                    if(lines_lengths[j] > lines_lengths[j+1]){
+                        swap(j, j+1);
+                    }
+                }
+            }
+            //redrawing the line_lengths
+            paintComponent(this.getGraphics());
+            //Make delay for 10ms
+            delay(10);
+
+            //getting the date and time when the bubble sort ends
+            Calendar end = Calendar.getInstance();
+
+            //getting the time it took for the bubble sort to execute
+            //subtracting the end time with the start time
+            SortGUI.bubbleTime = end.getTime().getTime() - start.getTime().getTime();
+        }
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //this method gets the smallest element in the array of lines_lengths
+        public int getIndexOfSmallest(int first, int last){
+
+            //You need to complete this part.
+            int smallestIndex = first;
+            for(int i = first + 1; i <= last; i++){
+                if(lines_lengths[i] < lines_lengths[smallestIndex]){
+                    smallestIndex = i;
+                }
+            }
+
+            return smallestIndex; //modify this line - MODIFIED
+        }
+
+    //The selectionSort method
 		public void SelectionSort(){
 			//getting the date and time when the selection sort starts
 			Calendar start = Calendar.getInstance();
@@ -82,13 +129,7 @@ public class SortShow extends JPanel {
 	        SortGUI.selectionTime = end.getTime().getTime() - start.getTime().getTime();
 		}
 		
-		//this method gets the smallest element in the array of lines_lengths
-		public int getIndexOfSmallest(int first, int last){
 
-			//You need to complete this part.
-
-			return 1; //modify this line
-		}
 		
 	///////////////////////////////////////////////////////////////////////////////////
 		

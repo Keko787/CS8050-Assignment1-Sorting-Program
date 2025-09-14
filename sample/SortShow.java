@@ -75,10 +75,10 @@ public class SortShow extends JPanel {
 
             int n = total_number_of_lines;
 
-            for(int i = 0; i < n - 1; i++){
-                for(int j = 0; j < n - i - 1; j++){
-                    if(lines_lengths[j] > lines_lengths[j+1]){
-                        swap(j, j+1);
+            for(int i = 0; i < n - 1; i++){ // for the length of the array
+                for(int j = 0; j < n - i - 1; j++){ // for the legth of the array subtracting the index of parent loop
+                    if(lines_lengths[j] > lines_lengths[j+1]){ // if current index is larger than the following element
+                        swap(j, j+1); // swap the index with the following element
                     }
                 }
             }
@@ -103,13 +103,13 @@ public class SortShow extends JPanel {
 
             //You need to complete this part.
             int smallestIndex = first;
-            for(int i = first + 1; i <= last; i++){
-                if(lines_lengths[i] < lines_lengths[smallestIndex]){
-                    smallestIndex = i;
+            for(int i = first + 1; i <= last; i++){ // for the length of the array excluding the first element
+                if(lines_lengths[i] < lines_lengths[smallestIndex]){ //if the current index is smaller than the set smallest index
+                    smallestIndex = i; // set the smallestIndex to the current index
                 }
             }
 
-            return smallestIndex; //modify this line - MODIFIED
+            return smallestIndex; //modify this line - MODIFIED to return the smallestIndex
         }
 
     //The selectionSort method
@@ -119,10 +119,11 @@ public class SortShow extends JPanel {
 			//Using the selection sort to lines_lengths sort the array
             int index = 0;
             int n = total_number_of_lines;
-            for(; index < n - 1; index++)
+
+            for(; index < n - 1; index++) //for the length of the array
             {
-                int indexOfSmallest = getIndexOfSmallest(index, n - 1);
-                swap(index, indexOfSmallest);
+                int indexOfSmallest = getIndexOfSmallest(index, n - 1); //getIndexofSmallest, finds the smallest index in the array
+                swap(index, indexOfSmallest); //swap manipulates the line_lengths, swap the current index with the smallestIndex
             }
 			//You need to complete this part.
 

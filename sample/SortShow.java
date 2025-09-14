@@ -124,12 +124,16 @@ public class SortShow extends JPanel {
             {
                 int indexOfSmallest = getIndexOfSmallest(index, n - 1); //getIndexofSmallest, finds the smallest index in the array
                 swap(index, indexOfSmallest); //swap manipulates the line_lengths, swap the current index with the smallestIndex
+                //redrawing the line_lengths
+                paintComponent(this.getGraphics());
+                //Make delay for 10ms
+                delay(10);
             }
-			//You need to complete this part.
+
 
 			//getting the date and time when the selection sort ends
 			Calendar end = Calendar.getInstance();
-			//getting the time it took for the selection sort to execute 
+			//getting the time it took for the selection sort to execute
 			//subtracting the end time with the start time
 	        SortGUI.selectionTime = end.getTime().getTime() - start.getTime().getTime();
 		}

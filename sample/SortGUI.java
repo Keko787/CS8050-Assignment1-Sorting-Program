@@ -180,7 +180,7 @@ public class SortGUI {
                     //The amount of time taken for selection sort took
                     bubble_time_taken.setText(bubbleTime / 1000 + " Seconds");
                     //setting all booleans false except for reset
-                    Set_Available_Chooses(true, false, false, false, true);
+                    Set_Available_Chooses(false, false, false, false, true);
                 }
             });
 
@@ -188,13 +188,13 @@ public class SortGUI {
 			selection.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//Sorting the array in the selection sort method
-					sortArea.SelectionSort(); 
+					sortArea.SelectionSort();
 					//Selection sort has finished/been clicked
 					Selection_Done = true;
 					//The amount of time taken for selection sort took
 					selection_time_taken.setText(selectionTime / 1000 + " Seconds");
 					//setting all booleans false except for reset
-					Set_Available_Chooses(false, true, false, false, true);
+					Set_Available_Chooses(false, false, false, false, true);
 				}
 			});
 

@@ -11,9 +11,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 //The class that has all the sorts in it
-public class SortShow extends JPanel { 
-
-	
+public class SortShow extends JPanel {
 		// An array to hold the lines_lengths to be sorted
 		public int[] lines_lengths;
 		//The amount of lines needed
@@ -79,13 +77,17 @@ public class SortShow extends JPanel {
                 for(int j = 0; j < n - i - 1; j++){ // for the legth of the array subtracting the index of parent loop
                     if(lines_lengths[j] > lines_lengths[j+1]){ // if current index is larger than the following element
                         swap(j, j+1); // swap the index with the following element
+                        //redrawing the line_lengths
+                        //paintComponent(this.getGraphics()); // DEBUG- DISABLE TO SEE FINISHED RESULTS FASTER
                     }
+                    //redrawing the line_lengths
+                    //paintComponent(this.getGraphics()); // DEBUG- DISABLE TO SEE FINISHED RESULTS FASTER
                 }
+                //redrawing the line_lengths
+                paintComponent(this.getGraphics()); // DEBUG- DISABLE TO SEE FINISHED RESULTS FASTER
             }
             //redrawing the line_lengths
             paintComponent(this.getGraphics());
-            //Make delay for 10ms
-            delay(10);
 
             //getting the date and time when the bubble sort ends
             Calendar end = Calendar.getInstance();
@@ -138,16 +140,67 @@ public class SortShow extends JPanel {
 	        SortGUI.selectionTime = end.getTime().getTime() - start.getTime().getTime();
 		}
 
-	///////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    // NOT DONE
+    public void InsertionSort(){
+        //getting the date and time when the selection sort starts
+        Calendar start = Calendar.getInstance();
+
+        //getting the date and time when the selection sort ends
+        Calendar end = Calendar.getInstance();
+        //getting the time it took for the selection sort to execute
+        //subtracting the end time with the start time
+        SortGUI.insertionTime = end.getTime().getTime() - start.getTime().getTime();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    // NOT DONE
+    public void ShellSort(){
+        //getting the date and time when the selection sort starts
+        Calendar start = Calendar.getInstance();
+
+        int first = 0;
+        int last = total_number_of_lines;
+        int n = last - first + 1;
+        int space = n / 2;
+
+        for(; space > 0; space = space / 2){
+         for(int begin = first; begin <= first + space; begin++){
+
+         }
+        }
+
+        //getting the date and time when the selection sort ends
+        Calendar end = Calendar.getInstance();
+        //getting the time it took for the selection sort to execute
+        //subtracting the end time with the start time
+        SortGUI.shellTime = end.getTime().getTime() - start.getTime().getTime();
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////
 		
 		//recursive merge sort method
 		public void R_MergeSort(){
 			//getting the date and time when the recursive merge sort starts
 			Calendar start = Calendar.getInstance();
 			//assigning the size for the tempArray below
+            tempArray = new int[total_number_of_lines];
+            int first = 0;
+            int last = total_number_of_lines;
+
+            // Call the recursive merge sort with initial parameters
+            R_MergeSort(first, last - 1);
+
+//            //redrawing the line_lengths DEBUG
+//            paintComponent(this.getGraphics());
+//            //Causing a delay for 10ms
+//            delay(10);
 
 			//You need to complete this part.
-
+            //Getting the data-time when the Recursive Merge sort ends
 			Calendar end = Calendar.getInstance();
 			//getting the time it took for the iterative merge sort to execute
 			//subtracting the end time with the start time
@@ -157,12 +210,25 @@ public class SortShow extends JPanel {
 		
 		//recursive merge sort method
 		public void R_MergeSort(int first, int last){
-			if(first < last){
+            if(first < last){
 
 				//You need to complete this part.
+                // Divide: init mid value between first and last
+                int mid = (first + last) / 2;
 
-				//Causing a delay for 10ms
-				//delay(10);
+                // Recur: Split the recursion merge to lower half of the array
+                R_MergeSort(first, mid);
+                // Recur: Split the recursion merge to upper half of the array
+                R_MergeSort(mid + 1, last);
+
+                // Conquer: Merge the Sorted Halves in first-mid and mid+1 - last
+                R_Merge(first, mid, last);
+
+
+                //redrawing the line_lengths
+                paintComponent(this.getGraphics());
+                //Causing a delay for 10ms
+				delay(10);
 			}
 		}
 
@@ -171,7 +237,61 @@ public class SortShow extends JPanel {
 		public void R_Merge(int first, int mid, int last){
 
 			//You need to complete this part.
-				
+
+            // Two adjacent sub-arrays
+            int beginHalf1 = first;
+            int endHalf1 = mid;
+            int beginHalf2 = mid + 1;
+            int endHalf2 = last;
+            int index = beginHalf1;
+
+            // While both subarrays are not empty
+            while(beginHalf1 <= endHalf1 && beginHalf2 <= endHalf2){
+                // compare an element in the lower subarray with an element in the upper subarray
+                if(lines_lengths[beginHalf1] < lines_lengths[beginHalf2]){
+                    // if the element in the lower half is bigger than the element in the
+                    // upper half, assign the lower half element that index in the temp array
+                    tempArray[index] = lines_lengths[beginHalf1];
+                    // increase the index in the lower sub-array
+                    beginHalf1++;
+                }
+                else{
+                    // if the element in the lower sub-array is not larger than the element in the
+                    // upper sub-array, then it the element in the upper array
+                    // gets assigned to the index in the temp array
+                    tempArray[index] = lines_lengths[beginHalf2];
+                    // increase the index in the upper sub-array
+                    beginHalf2++;
+                }
+                // increase index
+                index++;
+            }
+
+            // Finish off the nonempty sub-array
+
+            // Finish off the first sub-array, if necessary
+            while(beginHalf1 <= endHalf1)
+            {
+                // Invariant: tempArray[beginHalf1..index-1] is in order
+                tempArray[index] = lines_lengths[beginHalf1];
+                beginHalf1++;
+                index++;
+            }
+
+            // Finish off the second sub-array, if necessary
+            while(beginHalf2 <= endHalf2)
+            {
+                // Invariant: tempArray[beginHalf1..index-1] is in order
+                tempArray[index] = lines_lengths[beginHalf2];
+                beginHalf2++;
+                index++;
+            }
+
+            // Copy the result back into the original array
+            for(index = first; index <= last;  index++)
+            {
+                lines_lengths[index] = tempArray[index];
+            }
 		}
 		
 		//
@@ -285,7 +405,37 @@ public class SortShow extends JPanel {
 			lines_lengths[index] = tempArray[index];
 	}
 
-	//////////////////////////////////////////////////////////////////////	
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    // NOT DONE
+    public void QuickSort(){
+        //getting the date and time when the selection sort starts
+        Calendar start = Calendar.getInstance();
+
+        //getting the date and time when the selection sort ends
+        Calendar end = Calendar.getInstance();
+        //getting the time it took for the selection sort to execute
+        //subtracting the end time with the start time
+        SortGUI.quickTime = end.getTime().getTime() - start.getTime().getTime();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    // NOT DONE
+    public void RadixSort(){
+        //getting the date and time when the selection sort starts
+        Calendar start = Calendar.getInstance();
+
+        //getting the date and time when the selection sort ends
+        Calendar end = Calendar.getInstance();
+        //getting the time it took for the selection sort to execute
+        //subtracting the end time with the start time
+        SortGUI.radixTime = end.getTime().getTime() - start.getTime().getTime();
+    }
+
+
+    //////////////////////////////////////////////////////////////////////
 		
 		//This method resets the window to the scrambled lines display
 		public void reset(){

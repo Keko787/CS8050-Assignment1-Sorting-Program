@@ -293,8 +293,6 @@ public class SortShow extends JPanel {
                 lines_lengths[index] = tempArray[index];
             }
 		}
-		
-		//
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 		

@@ -78,13 +78,13 @@ public class SortShow extends JPanel {
                     if(lines_lengths[j] > lines_lengths[j+1]){ // if current index is larger than the following element
                         swap(j, j+1); // swap the index with the following element
                         //redrawing the line_lengths
-                        //paintComponent(this.getGraphics()); // DEBUG- DISABLE TO SEE FINISHED RESULTS FASTER
+                        //paintComponent(this.getGraphics()); // DEBUG - DISABLE TO SEE FINISHED RESULTS FASTER
                     }
                     //redrawing the line_lengths
-                    //paintComponent(this.getGraphics()); // DEBUG- DISABLE TO SEE FINISHED RESULTS FASTER
+                    //paintComponent(this.getGraphics()); // DEBUG - DISABLE TO SEE FINISHED RESULTS FASTER
                 }
                 //redrawing the line_lengths
-                paintComponent(this.getGraphics()); // DEBUG- DISABLE TO SEE FINISHED RESULTS FASTER
+                paintComponent(this.getGraphics()); // DEBUG - DISABLE TO SEE FINISHED RESULTS FASTER
             }
             //redrawing the line_lengths
             paintComponent(this.getGraphics());
@@ -417,7 +417,6 @@ public class SortShow extends JPanel {
         SortGUI.quickTime = end.getTime().getTime() - start.getTime().getTime();
     }
 
-
     ///////////////////////////////////////////////////////////////////////////////////
 
     // NOT DONE
@@ -431,7 +430,6 @@ public class SortShow extends JPanel {
         //subtracting the end time with the start time
         SortGUI.radixTime = end.getTime().getTime() - start.getTime().getTime();
     }
-
 
     //////////////////////////////////////////////////////////////////////
 		

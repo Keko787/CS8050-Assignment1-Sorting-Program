@@ -147,6 +147,39 @@ public class SortShow extends JPanel {
         //getting the date and time when the selection sort starts
         Calendar start = Calendar.getInstance();
 
+        // iterative method
+
+        // init variables
+        int begin = 0;
+        int last = total_number_of_lines;
+        int unsortedIndex = begin + 1; // index of unsorted portion of array, assuming first element is sorted
+
+        // loop on the length of the unsorted index to end, increment index
+        for(; unsortedIndex < last; unsortedIndex++)
+        {
+            // init variables
+            int elementToInsert = lines_lengths[unsortedIndex]; //saving element to inset later
+            int compareIndex = unsortedIndex - 1; // comparison position left of unsorted index, going backwards in array
+
+            // while the index is greater than the start
+            // and if the elements in the compare index is greater than the elementToInsert
+            while(compareIndex >= begin && lines_lengths[compareIndex] > elementToInsert)
+            {
+                // shift element's position to the right
+                lines_lengths[compareIndex + 1] = lines_lengths[compareIndex]; // takes the value at comparison position and copies it over to the position on the right of comparison as it decreases
+                compareIndex--; // decrement compareIndex
+            }
+
+            // After an element smaller than elementToInsert is found or compareIndex is at the start, the saved element is inserted
+            lines_lengths[compareIndex + 1] = elementToInsert;
+
+            // Redraw the lines after each insertion
+            paintComponent(this.getGraphics());
+            // Make delay for 1ms
+            delay(1);
+        }
+
+
         //getting the date and time when the selection sort ends
         Calendar end = Calendar.getInstance();
         //getting the time it took for the selection sort to execute
@@ -162,14 +195,67 @@ public class SortShow extends JPanel {
         Calendar start = Calendar.getInstance();
 
         int first = 0;
-        int last = total_number_of_lines;
+        int last = total_number_of_lines - 1;
         int n = last - first + 1;
-        int space = n / 2;
+        int gap = n / 2;
 
-        for(; space > 0; space = space / 2){
-         for(int begin = first; begin <= first + space; begin++){
+        // every loop, halve the gap, until it is 0
+        for(; gap > 0; gap = gap / 2)
+        {
+            // progress through array until reaches end of gap
+            for(int begin = first; begin <= first + gap; begin++)
+            {
 
-         }
+                int unsortedIndex;
+                int index;
+
+                // start at the end of the gap and progress through the end of the array,
+                // each loop jumps to the end each of gap, so (loop 0:0 + 4; loop 1: 4 + 4)
+                // each time the parent loop increments, the more this loops
+                for(unsortedIndex = begin + gap; unsortedIndex <= last; unsortedIndex = unsortedIndex + gap)
+                {
+                    // save the current element in the unsortedIndex
+                    int currentUnsortedElement = lines_lengths[unsortedIndex];
+
+                    // at the start of the current gap,
+                    // progress backwards until reaching the begining of the loop
+                    // (meaning currentUnsortedElement is the smallest element in the array)
+                    // or until the element in the current index is larger than the currentUnsortedElement saved
+                    for(index = unsortedIndex - gap;
+                        (index >= begin) && (lines_lengths[index] > currentUnsortedElement);
+                        index = index - gap)
+                    {
+                        // if the currentUnsortedElement is smaller than the element in the index (if loop activates),
+                        // shift element on the index based on the gap spacing size
+                        lines_lengths[index + gap] = lines_lengths[index];
+
+                        // Ripple Effect: Since the element is saved and the first to be overwritten
+                        // it is ok for it to do so, since the next iteration will cause the same thing to happen
+                        // the next element gets overwritten, but its ok since it already copied itself to the next gap
+                        // position. This causes a chain reaction where the element shifts forward, overwriting the copy
+                        // of the previous shift
+                    }
+                    // the final overwrite happens after the loop is over and is overwritted by
+                    // the saved element that is ready to be loaded in the correct position
+
+                    // load the saved element into the (index+gap) where index stopped at
+                    // very important distinct that it doesnt just replace the element
+                    // where the nest loop shifted it because it only does so if its
+                    // the smallest value in the array
+                    lines_lengths[index + gap] = currentUnsortedElement;
+                }
+
+                //redrawing the line_lengths
+                paintComponent(this.getGraphics());
+                //Causing a delay for 10ms
+                delay(10);
+
+            }
+
+//            //redrawing the line_lengths DEBUG
+//            paintComponent(this.getGraphics());
+//            //Causing a delay for 10ms
+//            delay(10);
         }
 
         //getting the date and time when the selection sort ends
@@ -223,7 +309,6 @@ public class SortShow extends JPanel {
 
                 // Conquer: Merge the Sorted Halves in first-mid and mid+1 - last
                 R_Merge(first, mid, last);
-
 
                 //redrawing the line_lengths
                 paintComponent(this.getGraphics());

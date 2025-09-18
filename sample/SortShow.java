@@ -432,6 +432,7 @@ public class SortShow extends JPanel {
 			I_Merge(beginSegment1, endSegment1, endSegment2);
 
 			beginSegment1 = endSegment2 + 1;
+
 			//redrawing the lines_lengths
 			paintComponent(this.getGraphics());
 			//Causing a delay for 10ms
@@ -495,11 +496,149 @@ public class SortShow extends JPanel {
         //getting the date and time when the selection sort starts
         Calendar start = Calendar.getInstance();
 
+        // Call the recursive quicksort with initial parameters
+        QuickSort(0, total_number_of_lines - 1);
+
         //getting the date and time when the selection sort ends
         Calendar end = Calendar.getInstance();
         //getting the time it took for the selection sort to execute
         //subtracting the end time with the start time
         SortGUI.quickTime = end.getTime().getTime() - start.getTime().getTime();
+    }
+
+    public void QuickSort(int first, int last)
+    {
+        if(first < last) // if last is ahead of first on the array
+        {
+            // Get the chosen finalPivotIndex and sort the Partition in the array in respect
+            // to the pivot using partition function, creating the sub arrays that are more sorted
+            int pivotIndex = partition(first, last);
+
+            // Split the array into two rec. calls for the sub arrays
+
+            // Sort smaller sub-array
+            QuickSort(first, pivotIndex - 1);
+
+            // Sort larger sub-array
+            QuickSort(pivotIndex + 1, last);
+        }
+
+    }
+
+    public int partition(int low, int high)
+    {
+        int mid = (low + high) / 2;
+
+        // in-function implementation of sortLowMiddleHigh
+        // don't need a separate function that will only be used for one sorting alg.
+        // also want to keep the 3-method max implementation
+        // of sorting algorithms that has been set as the given standard
+
+        // Swap the low, middle, high elements to match the position
+        // of being the lower value, middle value, and higher value
+
+        // make lines_lengths[first] <= lines_lengths[mid]
+        if (lines_lengths[low] > lines_lengths[mid]) {
+            swap(low, mid);
+        }
+
+        // make lines_lengths[mid] <= lines_lengths[last]
+        if (lines_lengths[mid] > lines_lengths[high]) {
+            swap(mid, high);
+        }
+
+        // make lines_lengths[first] <= lines_lengths[mid] again
+        if (lines_lengths[low] > lines_lengths[mid]) {
+            swap(low, mid);
+        }
+        // end of sortLowMiddleHigh
+
+        // for a moment, mid is temporarily treated as pivot
+        // since pivot needs to be < low and > high
+        // swap pivot element (mid temporarily) with element in Next-To-Last position in array
+        swap(mid, high - 1);
+        // this is also done to move the pivotElement out of the way during the partitioning process
+
+        // init pivot at Next-To-Last position - this is not the true pivot, just a reference point for final swap
+        int pivotIndex = high - 1;
+        int pivotElement = lines_lengths[pivotIndex];
+        // This is the CHOSEN PIVOT ELEMENT, Saved until last swap to save the chosen element
+        // The pivotIndex and pivotElement are saved and secured during the partitioning process
+
+        // init pointers for partitioning
+        int indexFromLeft = low + 1; // point to position after low position
+        int indexFromRight = high - 2; // point to position below current pivot position
+        // partitioning starts at pivotIndex - 1 (or high - 2) to leave the pivot safely stored at high - 1
+
+        // init loop sentinel (end condition)
+        boolean done = false;
+
+        // loop until end condition is met (indexFromLeft and indexFromRight crosses each other)
+        while(!done)
+        {
+            // Progress from the left (beginning) to the right (end)
+            // to find the first element in array that is greater than pivot
+            while(lines_lengths[indexFromLeft] < pivotElement)
+            {
+                indexFromLeft++;
+            }
+
+            // Progress from the right (end) to the left (beginning)
+            // to find the first element in array that is less than pivot
+            while(lines_lengths[indexFromRight] > pivotElement)
+            {
+                indexFromRight--;
+            }
+            // These loops guarantee that indexFromLeft >= pivot and indexFromRight <= pivot
+
+            // once the indexFrom left and indexFromRight found their elements greater or less than the pivot Element
+            // if the indexes have not cross each other in the array yet, swap their elements and move them
+            if(indexFromLeft < indexFromRight)
+            {
+                // Since the indexFromLeft found an element greater than the pivotElement
+                // and the indexFromRight found an element less than the pivotElement
+                // this means that a[indexFromRight] < pivot < a[indexFromLeft]
+                // they can be swaped to sort the array
+
+                // swap the elements between the two indexes
+                swap(indexFromLeft, indexFromRight);
+
+                // move indexes further along the array
+                indexFromLeft++; // Progress from left to right by 1
+                indexFromRight--; // Progress from right to left by 1
+
+
+                // DEBUG - or for show
+                //redrawing the lines_lengths
+                paintComponent(this.getGraphics());
+                //Causing a delay for 10ms
+                delay(10);
+            }
+            // once if the indexes on either side cross each in the array
+            else{
+                // conclude the loop
+                done = true;
+            }
+        }
+
+        // perform the final sorting position of the partition
+        // the reason why indexFromLeft is used is
+        // due to the pivot element being at the highest position in the array it can be
+        // so we need an element greater than the pivotElement to swap with
+        // swap pivotElement with greater element in indexFromLeft
+        swap(indexFromLeft, pivotIndex);
+
+        //redrawing the lines_lengths
+        paintComponent(this.getGraphics());
+        //Causing a delay for 10ms
+        delay(10);
+
+        // indexFromLeft is the final pivotElement position now since the pivotElement swapped
+        // assign this as the FinalPivotIndex for clarity
+        int finalPivotIndex = indexFromLeft;
+
+        // return the finalPivotIndex for recursive quickSort calls
+        return finalPivotIndex;
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -514,6 +653,10 @@ public class SortShow extends JPanel {
         //getting the time it took for the selection sort to execute
         //subtracting the end time with the start time
         SortGUI.radixTime = end.getTime().getTime() - start.getTime().getTime();
+    }
+
+    public void BucketSort(){
+
     }
 
     //////////////////////////////////////////////////////////////////////

@@ -530,7 +530,7 @@ public class SortShow extends JPanel {
         int mid = (low + high) / 2;
 
         // EDGE CASE HANDLING, when size of array is <= 4
-        // basically just swap the elements to sort them and pass the middle most value
+        // basically just swap the elements to directly sort them and pass the middle most value
 
         // Handle small size 2 partitions, prevents mid and low sharing a position, the condition in quickSort handles 1
         if (high - low <= 1) {

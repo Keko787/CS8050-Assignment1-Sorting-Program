@@ -142,7 +142,7 @@ public class SortShow extends JPanel {
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-    // NOT DONE
+
     public void InsertionSort(){
         //getting the date and time when the selection sort starts
         Calendar start = Calendar.getInstance();
@@ -189,7 +189,6 @@ public class SortShow extends JPanel {
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-    // NOT DONE
     public void ShellSort(){
         //getting the date and time when the selection sort starts
         Calendar start = Calendar.getInstance();
@@ -685,9 +684,17 @@ public class SortShow extends JPanel {
     ///////////////////////////////////////////////////////////////////////////////////
 
     // NOT DONE
-    public void RadixSort(){
+    public void RadixSort()
+    {
         //getting the date and time when the selection sort starts
         Calendar start = Calendar.getInstance();
+
+        // setting the chosen base digit, AKA the radix
+        // set it to base 10 - decimal
+        int radix = 10;
+
+        // Call the RadixSort with initial parameters
+        RadixSort(radix);
 
         //getting the date and time when the selection sort ends
         Calendar end = Calendar.getInstance();
@@ -696,9 +703,70 @@ public class SortShow extends JPanel {
         SortGUI.radixTime = end.getTime().getTime() - start.getTime().getTime();
     }
 
-    public void BucketSort(){
+    public void RadixSort(int radix)
+    {
+        // Find the element with max value to determine number of digits or buckets to use
+        int maxValue = lines_lengths[0];
+        for(int index = 1; index < total_number_of_lines - 1; index++)
+        {
+            if(lines_lengths[index] > maxValue)
+            {
+                maxValue = lines_lengths[index];
+            }
+        }
 
+        // for the length of base digits in the maximum value,
+        // (ex: 259 = base digit 3, 13 = base digit 2)
+        // start from Least Significant Digit, progressing to Most Significant Digit
+        // based on the chosen radix size (ex: base 10, base 16, base 2)
+        for(int exponent = 1; maxValue / exponent > 0; exponent *= radix) // the exponent will be based on chosen radix and start at LSD
+        {
+            // Start the bucket sort with the base digit to sort it by
+            BucketSort(exponent, radix);
+
+            //redrawing the lines_lengths
+            paintComponent(this.getGraphics());
+            //Causing a delay for 10ms
+            delay(10);
+        }
     }
+
+    public void BucketSort(int exponent, int radix)
+    {
+        // Create buckets dynamically based on radix (ex: 2 for binary, 10 for decimal, 16 for hex)
+        java.util.ArrayList<Integer>[] buckets = new java.util.ArrayList[radix]; //creating a fixed array of ArrayLists
+        // esentially creating a fixed array full of dynamic arrays since buckets will be fixed for the rest of the loop
+
+        // initiate an empty arrayList object for each position, each arrayList object initiated is a bucket to sort the elements into
+        // This is to prevent null positions in the buckets array
+        for (int bucketIndex = 0; bucketIndex < radix; bucketIndex++) { // for the length of the buckets array
+            buckets[bucketIndex] = new java.util.ArrayList<Integer>(); // create ArrayList object in BucketIndex Position
+        }
+
+        // Distribute elements into buckets based on current digit
+        for (int i = 0; i < total_number_of_lines; i++) { // for the length of the true array
+            int digit = (lines_lengths[i] / exponent) % radix;
+            // find/shift to the appropriate digit by dividing the element value by the exponent
+            // then find the remainder with radix to extract the desired digit value
+            // (ex: finding a value in the tens place)
+            // (123 / (exponent = 10) = 12 (removes the digit we dont need while not sacrifcing the value we want)
+            // (ex cont: 12 % (radix = 10) = 2) which finds the value in the tens place which was the goal
+
+            buckets[digit].add(lines_lengths[i]);
+            // based on the found digit, place the whole value (lines_lengths[ at position i])
+            // into the bucket of the respective digit found
+        }
+
+        // Collect elements from buckets back into true array
+        int index = 0;
+        for (int i = 0; i < radix; i++) { // for each bucket
+            for (int j = 0; j < buckets[i].size(); j++) { // for the length of each bucket
+                lines_lengths[index++] = buckets[i].get(j);
+                // add the element (position j) from the bucket (position i) into the true array
+            }
+        }
+    }
+
 
     //////////////////////////////////////////////////////////////////////
 		

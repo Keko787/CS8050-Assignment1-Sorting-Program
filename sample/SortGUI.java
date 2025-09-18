@@ -185,30 +185,37 @@ public class SortGUI {
             time_Panel.add(bubble_time_label);
             //Adding the bubble_time_taken to the time_Panel
             time_Panel.add(bubble_time_taken);
+
             //Adding the selection_time_label to the time_Panel
 			time_Panel.add(selection_time_label);
 			//Adding the selection_time_taken to the time_Panel
 			time_Panel.add(selection_time_taken);
+
             //Adding the insertion_time_label to the time_Panel
             time_Panel.add(insertion_time_label);
             //Adding the insertion_time_taken to the time_Panel
             time_Panel.add(insertion_time_taken);
+
             //Adding the shell_time_label to the time_Panel
             time_Panel.add(shell_time_label);
             //Adding the shell_time_taken to the time_Panel
             time_Panel.add(shell_time_taken);
+
 			//Adding the rmerge_time_label to the time_Panel
 			time_Panel.add(rmerge_time_label); 
 			//Adding the rmerge_time_taken to the time_Panel
 			time_Panel.add(rmerge_time_taken);
+
 			//Adding the imerge_time_label to the time_Panel
 			time_Panel.add(imerge_time_label);
 			//Adding the imerge_time_taken to the time_Panel
 			time_Panel.add(imerge_time_taken);
+
             //Adding the quick_time_label to the time_Panel
             time_Panel.add(quick_time_label);
             //Adding the quick_time_taken to the time_Panel
             time_Panel.add(quick_time_taken);
+
             //Adding the radix_time_label to the time_Panel
             time_Panel.add(radix_time_label);
             //Adding the radix_time_taken to the time_Panel
@@ -250,12 +257,12 @@ public class SortGUI {
             //Creating an action listener for bubble button
             bubble.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    //Sorting the array in the selection sort method
+                    //Sorting the array in the bubble sort method
                     sortArea.BubbleSort();
-                    //Selection sort has finished/been clicked
-                    Bubble_Done = true;
-                    //The amount of time taken for selection sort took
+                    //The amount of time taken for bubble sort took
                     bubble_time_taken.setText(bubbleTime / 1000 + " Seconds");
+                    //Bubble sort has finished/been clicked
+                    Bubble_Done = true;
                     //setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
                 }
@@ -266,11 +273,11 @@ public class SortGUI {
 				public void actionPerformed(ActionEvent e) {
 					//Sorting the array in the selection sort method
 					sortArea.SelectionSort();
-					//Selection sort has finished/been clicked
-					Selection_Done = true;
 					//The amount of time taken for selection sort took
 					selection_time_taken.setText(selectionTime / 1000 + " Seconds");
-					//setting all booleans false except for reset
+                    //Selection sort has finished/been clicked
+                    Selection_Done = true;
+                    //setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
 				}
 			});
@@ -278,12 +285,12 @@ public class SortGUI {
             //Creating an action listener for insertion button
             insertion.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    //Sorting the array in the selection sort method
+                    //Sorting the array in the insertion sort method
                     sortArea.InsertionSort();
-                    //Selection sort has finished/been clicked
-                    Insertion_Done = true;
-                    //The amount of time taken for selection sort took
+                    //The amount of time taken for insertion sort took
                     insertion_time_taken.setText(insertionTime / 1000 + " Seconds");
+                    //Insertion sort has finished/been clicked
+                    Insertion_Done = true;
                     //setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
                 }
@@ -293,12 +300,12 @@ public class SortGUI {
             //Creating an action listener for shell button
             shell.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    //Sorting the array in the selection sort method
+                    //Sorting the array in the shell sort method
                     sortArea.ShellSort();
-                    //Selection sort has finished/been clicked
+                    //The amount of time taken for shell sort took
+                    shell_time_taken.setText(shellTime / 1000 + " Seconds");
+                    //Shell sort has finished/been clicked
                     Shell_Done = true;
-                    //The amount of time taken for selection sort took
-                    selection_time_taken.setText(shellTime / 1000 + " Seconds");
                     //setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
                 }
@@ -309,10 +316,10 @@ public class SortGUI {
 				public void actionPerformed(ActionEvent e) {
 					//Sorting the array in the recursive merge sort method
 					sortArea.R_MergeSort();
+                    //The amount of time taken for recursive merge sort took
+                    rmerge_time_taken.setText((rmergeTime / 1000) + " Seconds");
                     //recursive merge sort has finished/been clicked
                     Recersive_Merge_Done = true;
-					//The amount of time taken for recursive merge sort took
-					rmerge_time_taken.setText((rmergeTime / 1000) + " Seconds");
 					//setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
 				}
@@ -323,10 +330,10 @@ public class SortGUI {
 				public void actionPerformed(ActionEvent e) {
 					//Sorting the array in the iterative merge sort method
 					sortArea.I_MergeSort();
-					//iterative merge sort has finished/been clicked
-					Iterative_Merge_Done = true;
                     //The amount of time taken for iterative merge sort took
                     imerge_time_taken.setText((imergeTime / 1000) + " Seconds");
+                    //iterative merge sort has finished/been clicked
+                    Iterative_Merge_Done = true;
 					//setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
 				}
@@ -335,11 +342,11 @@ public class SortGUI {
             //Creating an action listener for quick button
             quick.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    //Sorting the array in the selection sort method
+                    //Sorting the array in the quick sort method
                     sortArea.QuickSort();
-                    //Selection sort has finished/been clicked
+                    //Quick sort has finished/been clicked
                     Quick_Done = true;
-                    //The amount of time taken for selection sort took
+                    //The amount of time taken for quick sort took
                     quick_time_taken.setText(quickTime / 1000 + " Seconds");
                     //setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
@@ -349,12 +356,12 @@ public class SortGUI {
             //Creating an action listener for radix button
             radix.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    //Sorting the array in the selection sort method
+                    //Sorting the array in the radix sort method
                     sortArea.RadixSort();
-                    //Selection sort has finished/been clicked
-                    Radix_Done = true;
-                    //The amount of time taken for selection sort took
+                    //The amount of time taken for radix sort took
                     radix_time_taken.setText(radixTime / 1000 + " Seconds");
+                    //Radix sort has finished/been clicked
+                    Radix_Done = true;
                     //setting all booleans false except for reset
                     Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
                 }

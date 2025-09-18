@@ -530,6 +530,8 @@ public class SortShow extends JPanel {
         int mid = (low + high) / 2;
 
         // EDGE CASE HANDLING, when size of array is <= 4
+        // basically just swap the elements to sort them and pass the middle most value
+
         // Handle small size 2 partitions, prevents mid and low sharing a position, the condition in quickSort handles 1
         if (high - low <= 1) {
             if (lines_lengths[low] > lines_lengths[high]) {
@@ -615,14 +617,14 @@ public class SortShow extends JPanel {
         while(!done)
         {
             // Progress from the left (beginning) to the right (end)
-            // to find the first element in array that is greater than pivot
+            // to find the first element in array that is greater than pivot as well as prevent the idexes cross
             while(indexFromLeft <= indexFromRight && lines_lengths[indexFromLeft] < pivotElement)
             {
                 indexFromLeft++;
             }
 
             // Progress from the right (end) to the left (beginning)
-            // to find the first element in array that is less than pivot
+            // to find the first element in array that is less than pivot as well as prevent the idexes cross
             while(indexFromRight >= indexFromLeft && lines_lengths[indexFromRight] > pivotElement)
             {
                 indexFromRight--;
@@ -673,6 +675,7 @@ public class SortShow extends JPanel {
 
         // indexFromLeft is the final pivotElement position now since the pivotElement swapped
         // assign this as the FinalPivotIndex for clarity
+        // asserting the fact that anything is left to the pivot is less and to right is greater
         int finalPivotIndex = indexFromLeft;
 
         // return the finalPivotIndex for recursive quickSort calls

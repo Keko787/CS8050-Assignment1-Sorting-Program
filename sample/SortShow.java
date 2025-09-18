@@ -529,6 +529,39 @@ public class SortShow extends JPanel {
     {
         int mid = (low + high) / 2;
 
+        // EDGE CASE HANDLING, when size of array is <= 4
+        // Handle small size 2 partitions, prevents mid and low sharing a position, the condition in quickSort handles 1
+        if (high - low <= 1) {
+            if (lines_lengths[low] > lines_lengths[high]) {
+                swap(low, high);
+            }
+            // For size 2, return the index of smaller element to avoid further partitioning on sorted elements
+            int finalPivotIndex = low;
+            return finalPivotIndex;
+        }
+
+        // Handle size 3 & 4 partitions specially,
+        // for some reason the low-median-high approach doesnt properly handle size 4 sub-arrays
+        if (high - low <= 3) {
+            // For small partitions, just sort them directly
+            for (int i = low; i < high; i++) { // for length of sub-array
+                for (int j = i + 1; j <= high; j++) { // for the incremented length of sub-array
+                    if (lines_lengths[i] > lines_lengths[j]) { //if the previous element is greater, swap the greater element
+                        swap(i, j);
+                    }
+                }
+            }
+
+            //redrawing the lines_lengths
+            paintComponent(this.getGraphics());
+            //Causing a delay for 10ms
+            delay(10);
+
+            // Return the middle element as pivot position to avoid further partitioning on sorted elements
+            int finalPiotIndex = mid;
+            return finalPiotIndex;
+        }
+
         // in-function implementation of sortLowMiddleHigh
         // don't need a separate function that will only be used for one sorting alg.
         // also want to keep the 3-method max implementation
@@ -567,25 +600,30 @@ public class SortShow extends JPanel {
 
         // init pointers for partitioning
         int indexFromLeft = low + 1; // point to position after low position
-        int indexFromRight = high - 2; // point to position below current pivot position
-        // partitioning starts at pivotIndex - 1 (or high - 2) to leave the pivot safely stored at high - 1
+        int indexFromRight = high - 2; // point to position before pivot position
+        // partitioning starts at low+1 and high-2 since low and high are already sorted by median-of-three
 
         // init loop sentinel (end condition)
         boolean done = false;
+
+        // Check if there's anything to partition
+        if (indexFromLeft > indexFromRight) {
+            done = true;
+        }
 
         // loop until end condition is met (indexFromLeft and indexFromRight crosses each other)
         while(!done)
         {
             // Progress from the left (beginning) to the right (end)
             // to find the first element in array that is greater than pivot
-            while(lines_lengths[indexFromLeft] < pivotElement)
+            while(indexFromLeft <= indexFromRight && lines_lengths[indexFromLeft] < pivotElement)
             {
                 indexFromLeft++;
             }
 
             // Progress from the right (end) to the left (beginning)
             // to find the first element in array that is less than pivot
-            while(lines_lengths[indexFromRight] > pivotElement)
+            while(indexFromRight >= indexFromLeft && lines_lengths[indexFromRight] > pivotElement)
             {
                 indexFromRight--;
             }
@@ -593,7 +631,7 @@ public class SortShow extends JPanel {
 
             // once the indexFrom left and indexFromRight found their elements greater or less than the pivot Element
             // if the indexes have not cross each other in the array yet, swap their elements and move them
-            if(indexFromLeft < indexFromRight)
+            if(indexFromLeft <= indexFromRight)
             {
                 // Since the indexFromLeft found an element greater than the pivotElement
                 // and the indexFromRight found an element less than the pivotElement
@@ -609,10 +647,10 @@ public class SortShow extends JPanel {
 
 
                 // DEBUG - or for show
-                //redrawing the lines_lengths
-                paintComponent(this.getGraphics());
-                //Causing a delay for 10ms
-                delay(10);
+//                //redrawing the lines_lengths
+//                paintComponent(this.getGraphics());
+//                //Causing a delay for 10ms
+//                delay(10);
             }
             // once if the indexes on either side cross each in the array
             else{

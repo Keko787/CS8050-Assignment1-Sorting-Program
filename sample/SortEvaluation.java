@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class SortBenchmark {
+public class SortEvaluation {
     // Test array sizes based on set constraints from the assignment
     private static final int[] TEST_SIZES = {1000, 10000, 100000};
 
@@ -20,20 +20,20 @@ public class SortBenchmark {
     private int[] originalArray;
     private int[] workingArray;
 
-    // Results storage by using BenchmarkResult class as data type
-    private ArrayList<BenchmarkResult> results;
+    // Results storage by using EvaluationResult class as data type
+    private ArrayList<EvaluationResult> results;
 
     ///////////////////////////////////////////////////////////////////////////////////
 
     // Inner small class to store benchmark results - default constructor
-    private class BenchmarkResult {
+    private class EvaluationResult {
         // init these attributes when object is made
         String algorithmName;
         int arraySize;
         double averageTime;
         double[] individualRuns;
 
-        BenchmarkResult(String name, int size, double avg, double[] runs) {  // constructor for parameters
+        EvaluationResult(String name, int size, double avg, double[] runs) {  // constructor for parameters
             // init these attributes if using this constructor
             this.algorithmName = name;
             this.arraySize = size;
@@ -45,7 +45,7 @@ public class SortBenchmark {
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-    public SortBenchmark() { // constructor for SortBenchmark
+    public SortEvaluation() { // constructor for SortEvaluation
         // make the results into an arrayList so we can use methods to easily append to the array
         results = new ArrayList<>();
     }
@@ -73,7 +73,7 @@ public class SortBenchmark {
 
 
     // Benchmark a specific sorting algorithm using SortShow
-    private BenchmarkResult benchmarkAlgorithm(String algorithmName, int arraySize) { // set Benchmark class as data type
+    private EvaluationResult benchmarkAlgorithm(String algorithmName, int arraySize) { // set Evaluation class as data type
                                                                                       // to make returning the results
                                                                                       // Object oriented to avoid reference issues
         double[] runTimes = new double[NUM_RUNS]; // create an array for runtimes for the sort alg. base on set constraints to run
@@ -134,7 +134,7 @@ public class SortBenchmark {
         double averageTime = totalTime / NUM_RUNS;
         System.out.printf("    Average: %.6f seconds\n", averageTime);
 
-        return new BenchmarkResult(algorithmName, arraySize, averageTime, runTimes);
+        return new EvaluationResult(algorithmName, arraySize, averageTime, runTimes);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -194,7 +194,7 @@ public class SortBenchmark {
             System.out.printf("%-25s", algo);
             for (int size : TEST_SIZES) { // for each size in the constraints
                 // Find matching result
-                for (BenchmarkResult result : results) { // for each result
+                for (EvaluationResult result : results) { // for each result
                     if (result.algorithmName.equals(algo) && result.arraySize == size) {
                         System.out.printf("%15.6f", result.averageTime);
                         break;
@@ -218,7 +218,7 @@ public class SortBenchmark {
             String bestAlgo = "";
             String worstAlgo = "";
 
-            for (BenchmarkResult result : results) {
+            for (EvaluationResult result : results) {
                 if (result.arraySize == size) {
                     if (result.averageTime < bestTime) {
                         bestTime = result.averageTime;
@@ -243,7 +243,7 @@ public class SortBenchmark {
 
     // Main method
     public static void main(String[] args) {
-        SortBenchmark benchmark = new SortBenchmark();
+        SortEvaluation benchmark = new SortEvaluation();
 
         System.out.println("Starting benchmark suite...");
         System.out.println("This may take several minutes for large arrays.\n");

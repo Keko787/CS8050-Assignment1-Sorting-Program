@@ -25,7 +25,7 @@ public class SortEvaluation {
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-    // Inner small class to store benchmark results - default constructor
+    // Inner small class to store evaluations results - default constructor
     private class EvaluationResult {
         // init these attributes when object is made
         String algorithmName;
@@ -41,7 +41,7 @@ public class SortEvaluation {
             this.individualRuns = runs;
         }
     }
-    // end of BenchmarkResults
+    // end of EvaluationsResults
 
     ///////////////////////////////////////////////////////////////////////////////////
 
@@ -72,8 +72,8 @@ public class SortEvaluation {
     ///////////////////////////////////////////////////////////////////////////////////
 
 
-    // Benchmark a specific sorting algorithm using SortShow
-    private EvaluationResult benchmarkAlgorithm(String algorithmName, int arraySize) { // set Evaluation class as data type
+    // Evaluate a specific sorting algorithm using SortShow
+    private EvaluationResult evaluateAlgorithm(String algorithmName, int arraySize) { // set Evaluation class as data type
                                                                                       // to make returning the results
                                                                                       // Object oriented to avoid reference issues
         double[] runTimes = new double[NUM_RUNS]; // create an array for runtimes for the sort alg. base on set constraints to run
@@ -88,7 +88,7 @@ public class SortEvaluation {
             int[] arrayCopy = new int[workingArray.length];
             System.arraycopy(workingArray, 0, arrayCopy, 0, workingArray.length);
 
-            // Create a SortShow instance in benchmark mode with the array copy
+            // Create a SortShow instance in evaluate mode with the array copy
             // to absolve ref error and turning off gui mode
             SortShow sorter = new SortShow(arrayCopy, true);
 
@@ -139,10 +139,10 @@ public class SortEvaluation {
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-    // Run all benchmarks
-    public void runAllBenchmarks() {
+    // Run all evaluations
+    public void runAllEvaluations() {
         System.out.println("=================================================");
-        System.out.println("SORTING ALGORITHM BENCHMARK - EXPERIMENTAL MODE");
+        System.out.println("SORTING ALGORITHM EVALUATION - EXPERIMENTAL MODE");
         System.out.println("=================================================\n");
 
         for (int size : TEST_SIZES) {
@@ -151,15 +151,15 @@ public class SortEvaluation {
 
             generateRandomArray(size);
 
-            // Test each sorting algorithm, then add the results of each benchmark to
-            results.add(benchmarkAlgorithm("Bubble Sort", size));
-            results.add(benchmarkAlgorithm("Selection Sort", size));
-            results.add(benchmarkAlgorithm("Insertion Sort", size));
-            results.add(benchmarkAlgorithm("Shell Sort", size));
-            results.add(benchmarkAlgorithm("Merge Sort (Recursive)", size));
-            results.add(benchmarkAlgorithm("Merge Sort (Iterative)", size));
-            results.add(benchmarkAlgorithm("Quick Sort", size));
-            results.add(benchmarkAlgorithm("Radix Sort", size));
+            // Test each sorting algorithm, then add the results of each evaluation to results
+            results.add(evaluateAlgorithm("Bubble Sort", size));
+            results.add(evaluateAlgorithm("Selection Sort", size));
+            results.add(evaluateAlgorithm("Insertion Sort", size));
+            results.add(evaluateAlgorithm("Shell Sort", size));
+            results.add(evaluateAlgorithm("Merge Sort (Recursive)", size));
+            results.add(evaluateAlgorithm("Merge Sort (Iterative)", size));
+            results.add(evaluateAlgorithm("Quick Sort", size));
+            results.add(evaluateAlgorithm("Radix Sort", size));
 
             System.out.println();
         }
@@ -173,7 +173,7 @@ public class SortEvaluation {
     // Print formatted results table
     private void printSummaryTable() {
         System.out.println("=================================================");
-        System.out.println("BENCHMARK RESULTS SUMMARY");
+        System.out.println("EVALUATION RESULTS SUMMARY");
         System.out.println("=================================================");
         System.out.println("All times in seconds (average of " + NUM_RUNS + " runs)\n");
 
@@ -211,7 +211,7 @@ public class SortEvaluation {
         System.out.println("Performance Analysis:");
         System.out.println("-------------------------------------------------");
 
-        // Find best performers for each size based on set constraint sizes
+        // Find the best performers for each size based on set constraint sizes
         for (int size : TEST_SIZES) {
             double bestTime = Double.MAX_VALUE;
             double worstTime = 0;
@@ -243,16 +243,16 @@ public class SortEvaluation {
 
     // Main method
     public static void main(String[] args) {
-        SortEvaluation benchmark = new SortEvaluation();
+        SortEvaluation evaluator = new SortEvaluation();
 
-        System.out.println("Starting benchmark suite...");
+        System.out.println("Starting Evaluation Suite...");
         System.out.println("This may take several minutes for large arrays.\n");
 
         long startTime = System.currentTimeMillis();
-        benchmark.runAllBenchmarks();
+        evaluator.runAllEvaluations();
         long endTime = System.currentTimeMillis();
 
-        System.out.printf("\nTotal benchmark time: %.2f seconds\n",
+        System.out.printf("\nTotal evaluation time: %.2f seconds\n",
                          (endTime - startTime) / 1000.0);
     }
 }

@@ -56,11 +56,11 @@ public class SortEvaluation {
     // Generate random array of given size (1,000; 10,000; 100,000)
     private void generateRandomArray(int size) {
         Random rand = new Random();
-        originalArray = new int[size];
-        for (int i = 0; i < size; i++) {
+        originalArray = new int[size]; // make an original array to reference
+        for (int i = 0; i < size; i++) { // for length of specified size
             originalArray[i] = rand.nextInt(size * 10); // Random values 0 to size*10
         }
-        workingArray = new int[size];
+        workingArray = new int[size]; // make an array to operate with
     }
 
     // Reset working array to original scrambled state
@@ -195,8 +195,8 @@ public class SortEvaluation {
             for (int size : TEST_SIZES) { // for each size in the constraints
                 // Find matching result
                 for (EvaluationResult result : results) { // for each result
-                    if (result.algorithmName.equals(algo) && result.arraySize == size) {
-                        System.out.printf("%15.6f", result.averageTime);
+                    if (result.algorithmName.equals(algo) && result.arraySize == size) { // match the result
+                        System.out.printf("%15.6f", result.averageTime); // print it
                         break;
                     }
                 }
@@ -213,12 +213,12 @@ public class SortEvaluation {
 
         // Find the best performers for each size based on set constraint sizes
         for (int size : TEST_SIZES) {
-            double bestTime = Double.MAX_VALUE;
+            double bestTime = Double.MAX_VALUE; // larger size to handle value
             double worstTime = 0;
             String bestAlgo = "";
             String worstAlgo = "";
 
-            for (EvaluationResult result : results) {
+            for (EvaluationResult result : results) { // for each result compare sizes to find bestTime, worstTime, avgTime
                 if (result.arraySize == size) {
                     if (result.averageTime < bestTime) {
                         bestTime = result.averageTime;

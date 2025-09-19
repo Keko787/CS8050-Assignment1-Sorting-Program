@@ -48,10 +48,16 @@ public class SortGUI {
     //Boolean variable that is made to keep track whether or not the radix sort has already been used
     public boolean Radix_Done = false;
 
-    //Making a object from the class SortShow
+    ///////////////////////////////////////////////////////////////////////////////////
+
+
+    //Making an object from the class SortShow
 	SortShow sortArea = new SortShow();
-	
-	//Default constructor for SortGUI
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+
+    //Default constructor for SortGUI
 	public SortGUI() {
 		//making a MyScreen object
 
@@ -179,7 +185,10 @@ public class SortGUI {
 			//giving the radio_button_selection_Panel a border with a title 
 			radio_button_selection_Panel.setBorder(new javax.swing.border.TitledBorder("Sort Algorithms"));
 
-			//A Panel to hold the time_Panel and set the GridLayout
+            ///////////////////////////////////////////////////////////////////////////////////
+
+
+            //A Panel to hold the time_Panel and set the GridLayout
 			JPanel time_Panel = new JPanel(new GridLayout(8, 1, 3, 3));
             //Adding the bubble_time_label to the time_Panel
             time_Panel.add(bubble_time_label);
@@ -238,7 +247,9 @@ public class SortGUI {
 			//setting all booleans to false
             Set_Available_Chooses(false, false, false, false, false, false, false, false, true);
 
-			//The following code is for creating a listener for each GUI element 
+            ///////////////////////////////////////////////////////////////////////////////////
+
+            //The following code is for creating a listener for each GUI element
 
 			//Creating an action listener for scramble button
 			//This button will be used to scramble the lines in a random way
@@ -416,7 +427,10 @@ public class SortGUI {
 
 		}
 
-		//A method that sets if the button are enabled or disabled
+        ///////////////////////////////////////////////////////////////////////////////////
+
+
+        //A method that sets if the button are enabled or disabled
         // ! WE NEED TO ADD THE REST OF THE SORT ALG.
 		public void Set_Available_Chooses(boolean bubble_state, boolean selection_state, boolean insertion_state, boolean shell_state,
                                           boolean rmerge_state, boolean imerge_state, boolean quick_state, boolean radix_state, boolean reset_state) {
@@ -432,7 +446,10 @@ public class SortGUI {
 		}
 	}
 
-	//The main method
+    ///////////////////////////////////////////////////////////////////////////////////
+
+
+    //The main method
 	public static void main(String[] args) {
 		//initialize the class
 		SortGUI sort_GUI = new SortGUI();

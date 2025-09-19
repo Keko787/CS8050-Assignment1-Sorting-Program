@@ -20,14 +20,35 @@ public class SortShow extends JPanel {
 		public int[] scramble_lines;
 		//A temp Array that is used later for sorts
 		public int[] tempArray;
-		
-		//the default constructor for the SortShow class
+
+		// Mode flag: true for GUI mode, false for benchmark mode
+		private boolean guiMode = true;
+
+		// Actual array size (for benchmark mode)
+		private int array_size;
+
+		//the default constructor for the SortShow class (GUI mode)
 		public SortShow(){
+			this.guiMode = true;  // use the gui mode as a flag to enable paintComponent
+			this.array_size = total_number_of_lines;
 			//assigning the size for the lines_lengths below
 			lines_lengths = new int[total_number_of_lines];
-			for(int i = 0; i < total_number_of_lines; i++) 
+			for(int i = 0; i < total_number_of_lines; i++)
 				lines_lengths[i] =  i+5;
-			
+
+		}
+
+		// Constructor for benchmark mode - accepts external array for benchmark mode (1,000; 10,000; 100,000)
+		public SortShow(int[] array, boolean benchmarkMode) {
+			this.guiMode = !benchmarkMode; // if benchmark mode, no gui mode
+			this.lines_lengths = array; // set the max lines to array size
+			this.tempArray = new int[array.length]; // initiates global temp array
+			this.array_size = array.length; // set actual array size
+		}
+
+		// Helper method to get the actual array size - defunct
+		private int getArraySize() {
+			return guiMode ? total_number_of_lines : array_size;
 		}
 		
 
@@ -52,7 +73,9 @@ public class SortShow extends JPanel {
 				scramble_lines[i] = lines_lengths[i];
 			}
 			//Drawing the now scrambled lines_lengths
-			paintComponent(this.getGraphics());
+			if (guiMode) {
+				paintComponent(this.getGraphics());
+			}
 		}
 		
 		//Swapping method that swaps two elements in the lines_lengths array
@@ -84,10 +107,14 @@ public class SortShow extends JPanel {
                     //paintComponent(this.getGraphics()); // DEBUG - DISABLE TO SEE FINISHED RESULTS FASTER
                 }
                 //redrawing the line_lengths
-                paintComponent(this.getGraphics()); // DEBUG - DISABLE TO SEE FINISHED RESULTS FASTER
+                if (guiMode) {
+                    paintComponent(this.getGraphics()); // DEBUG - DISABLE TO SEE FINISHED RESULTS FASTER
+                }
             }
             //redrawing the line_lengths
-            paintComponent(this.getGraphics());
+            if (guiMode) {
+                paintComponent(this.getGraphics());
+            }
 
             //getting the date and time when the bubble sort ends
             Calendar end = Calendar.getInstance();
@@ -127,9 +154,11 @@ public class SortShow extends JPanel {
                 int indexOfSmallest = getIndexOfSmallest(index, n - 1); //getIndexofSmallest, finds the smallest index in the array
                 swap(index, indexOfSmallest); //swap manipulates the line_lengths, swap the current index with the smallestIndex
                 //redrawing the line_lengths
-                paintComponent(this.getGraphics());
-                //Make delay for 10ms
-                delay(10);
+                if (guiMode) {
+                    paintComponent(this.getGraphics());
+                    //Make delay for 10ms
+                    delay(10);
+                }
             }
 
 
@@ -174,9 +203,11 @@ public class SortShow extends JPanel {
             lines_lengths[compareIndex + 1] = elementToInsert;
 
             // Redraw the lines after each insertion
-            paintComponent(this.getGraphics());
-            // Make delay for 1ms
-            delay(1);
+            if (guiMode) {
+                paintComponent(this.getGraphics());
+                // Make delay for 1ms
+                delay(1);
+            }
         }
 
 
@@ -245,9 +276,11 @@ public class SortShow extends JPanel {
                 }
 
                 //redrawing the line_lengths
-                paintComponent(this.getGraphics());
-                //Causing a delay for 10ms
-                delay(10);
+                if (guiMode) {
+                    paintComponent(this.getGraphics());
+                    //Causing a delay for 10ms
+                    delay(10);
+                }
 
             }
 
@@ -310,9 +343,11 @@ public class SortShow extends JPanel {
                 R_Merge(first, mid, last);
 
                 //redrawing the line_lengths
-                paintComponent(this.getGraphics());
-                //Causing a delay for 10ms
-				delay(10);
+                if (guiMode) {
+                    paintComponent(this.getGraphics());
+                    //Causing a delay for 10ms
+				    delay(10);
+                }
 			}
 		}
 
@@ -433,9 +468,11 @@ public class SortShow extends JPanel {
 			beginSegment1 = endSegment2 + 1;
 
 			//redrawing the lines_lengths
-			paintComponent(this.getGraphics());
-			//Causing a delay for 10ms
-			delay(10);
+			if (guiMode) {
+				paintComponent(this.getGraphics());
+				//Causing a delay for 10ms
+				delay(10);
+			}
 		}
 		// Returns index of last merged pair
 		return beginSegment1;
@@ -554,9 +591,11 @@ public class SortShow extends JPanel {
             }
 
             //redrawing the lines_lengths
-            paintComponent(this.getGraphics());
-            //Causing a delay for 10ms
-            delay(10);
+            if (guiMode) {
+                paintComponent(this.getGraphics());
+                //Causing a delay for 10ms
+                delay(10);
+            }
 
             // Return the middle element as pivot position to avoid further partitioning on sorted elements
             int finalPiotIndex = mid;
@@ -668,9 +707,11 @@ public class SortShow extends JPanel {
         swap(indexFromLeft, pivotIndex);
 
         //redrawing the lines_lengths
-        paintComponent(this.getGraphics());
-        //Causing a delay for 10ms
-        delay(10);
+        if (guiMode) {
+            paintComponent(this.getGraphics());
+            //Causing a delay for 10ms
+            delay(10);
+        }
 
         // indexFromLeft is the final pivotElement position now since the pivotElement swapped
         // assign this as the FinalPivotIndex for clarity
@@ -725,9 +766,11 @@ public class SortShow extends JPanel {
             BucketSort(exponent, radix);
 
             //redrawing the lines_lengths
-            paintComponent(this.getGraphics());
-            //Causing a delay for 10ms
-            delay(10);
+            if (guiMode) {
+                paintComponent(this.getGraphics());
+                //Causing a delay for 10ms
+                delay(10);
+            }
         }
     }
 
@@ -780,7 +823,9 @@ public class SortShow extends JPanel {
 					lines_lengths[i] = scramble_lines[i] ;
 				}
 			//Drawing the now scrambled lines_lengths
-			paintComponent(this.getGraphics());
+			if (guiMode) {
+				paintComponent(this.getGraphics());
+			}
 		}
 			}
 		

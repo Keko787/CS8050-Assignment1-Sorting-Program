@@ -65,7 +65,7 @@ public class SortGUI {
 
 		MyScreen screen = new MyScreen();
 		//Setting a title to the GUI window
-		screen.setTitle("Assignment-1 by Group-8 KK & CF");
+		screen.setTitle("Assignment-1 by Group-8 Team: Kevin Kostage & Clifford Fanyuy");
 		//setting the size of the window 
 		screen.setSize(1250+sortArea.total_number_of_lines, 800);
 		//the operation when the frame is closed
@@ -73,7 +73,10 @@ public class SortGUI {
 		//is set to true to display the frame
 		screen.setVisible(true);
 	}
-	//A public class that extends JFrame
+
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    //A public class that extends JFrame
 	public class MyScreen extends JFrame {
 		//making a scramble button with a text "Scramble Lines" on it
 		JButton scramble_button = new JButton("Scramble Lines");
@@ -95,6 +98,9 @@ public class SortGUI {
         JRadioButton radix = new JRadioButton("Radix");
 		//making a reset button with a text "Reset" on it
 		JRadioButton reset = new JRadioButton("Reset");
+
+        ///////////////////////////////////////////////////////////////////////////////////
+
 
         //A label that displays the time it took for the Bubble sort took to execute
         JLabel bubble_time_label = new JLabel("Bubble Time");
@@ -141,6 +147,9 @@ public class SortGUI {
             //The time displayed for radix sort will be the colour red
             radix_time_taken.setForeground(Color.RED);
 
+            ///////////////////////////////////////////////////////////////////////////////////
+
+
             //The bubble button text will be the colour blue
             bubble.setForeground(Color.BLUE);
             //The selection button text will be the colour blue
@@ -161,6 +170,9 @@ public class SortGUI {
 			scramble_button.setForeground(Color.BLUE);
 			//setting the font of scramble button
 			scramble_button.setFont(new Font("Arial", Font.BOLD, 15));
+
+            ///////////////////////////////////////////////////////////////////////////////////
+
 
             //A Panel to hold the radio_button_selection and set the GridLayout
 			JPanel radio_button_selection_Panel = new JPanel(new GridLayout(4, 1, 3, 3));

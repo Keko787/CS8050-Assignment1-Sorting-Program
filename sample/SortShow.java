@@ -416,55 +416,82 @@ public class SortShow extends JPanel {
 	//////////////////////////////////////////////////////////////////////////////////////////
 		
 		//iterative merge sort method
+		// DIVIDE AND CONQUER APPROACH - Iterative Implementation
+		// Unlike recursive merge sort, this version uses iteration to control the divide phase
+		// by progressively doubling segment sizes instead of recursively splitting
 		public void I_MergeSort()
 		{
 		//getting the date and time when the iterative merge sort starts
 		Calendar start = Calendar.getInstance();
 		//assigning the size for the tempArray below
-		tempArray = new int[total_number_of_lines]; 
+		tempArray = new int[total_number_of_lines];
 		//saving the value of total_number_of_lines
 		int beginLeftovers = total_number_of_lines;
 
-		
+		// DIVIDE PHASE (Bottom-up approach):
+		// Start with smallest segments (size 1) and progressively double the segment size
+		// This loop controls the "divide" by determining segment sizes: 1, 2, 4, 8, 16, ...
+		// Each iteration represents a level in the merge tree, working from leaves to root
+            //
 		for (int segmentLength = 1; segmentLength <= total_number_of_lines/2; segmentLength = 2*segmentLength)
 		{
+			// CONQUER PHASE:
+			// Merge all pairs of adjacent segments of current segmentLength
+			// Returns the index where leftover elements (that couldn't form a complete pair) begin
 			beginLeftovers = I_MergeSegmentPairs(total_number_of_lines, segmentLength);
+
+			// Handle partial leftover segment if it exists
 			int endSegment = beginLeftovers + segmentLength - 1;
-			if (endSegment < total_number_of_lines - 1) 
+			if (endSegment < total_number_of_lines - 1)
 			{
+			// CONQUER: Merge the leftover segment with the next available segment
 			I_Merge(beginLeftovers, endSegment, total_number_of_lines - 1);
 			}
-		} 
+		}
 
-		// merge the sorted leftovers with the rest of the sorted array
+		// FINAL CONQUER:
+		// Merge the sorted leftovers with the rest of the sorted array to complete the sort
+		// This handles any remaining unmerged elements from the last iteration
 		if (beginLeftovers < total_number_of_lines) {
 			I_Merge(0, beginLeftovers-1, total_number_of_lines - 1);
 		}
 		//getting the date and time when the iterative merge sort ends
 		Calendar end = Calendar.getInstance();
-		//getting the time it took for the iterative merge sort to execute 
+		//getting the time it took for the iterative merge sort to execute
 		//subtracting the end time with the start time
 	    SortGUI.imergeTime = end.getTime().getTime() - start.getTime().getTime();
-	} 
+	}
 
-	// Merges segments pairs (certain length) within an array 
+	// DIVIDE AND CONQUER - Merges segment pairs (certain length) within an array
+	// This method handles the CONQUER phase for all adjacent segment pairs of a given size
 	public int I_MergeSegmentPairs(int l, int segmentLength)
 	{
-		//The length of the two merged segments 
-
-		//You suppose  to complete this part (Given).
+		// DIVIDE:
+		// Calculate how the array is divided into segments
+		// The length of the two merged segments
 		int mergedPairLength = 2 * segmentLength;
+		// Calculate how many complete pairs of segments exist at this level
 		int numberOfPairs = l / mergedPairLength;
 
+		// Track the beginning of the first segment in each pair
 		int beginSegment1 = 0;
+
+		// CONQUER:
+		// Merge each pair of adjacent segments
+		// This loop processes all complete pairs at the current segment size level
 		for (int count = 1; count <= numberOfPairs; count++)
 		{
+			// DIVIDE: Define boundaries of the first segment in the pair
 			int endSegment1 = beginSegment1 + segmentLength - 1;
 
+			// DIVIDE: Define boundaries of the second segment in the pair
 			int beginSegment2 = endSegment1 + 1;
 			int endSegment2 = beginSegment2 + segmentLength - 1;
+
+			// CONQUER: Merge the two adjacent sorted segments into one sorted segment
 			I_Merge(beginSegment1, endSegment1, endSegment2);
 
+			// Move to the next pair of segments
 			beginSegment1 = endSegment2 + 1;
 
 			//redrawing the lines_lengths
@@ -474,33 +501,41 @@ public class SortShow extends JPanel {
 				delay(10);
 			}
 		}
-		// Returns index of last merged pair
+		// Returns index of last merged pair (beginning of leftover elements)
 		return beginSegment1;
 		//return 1;//modify this line
 	}
 
+	// CONQUER PHASE - Merges two adjacent sorted segments into one sorted segment
+	// This is the core "Conquer" operation that combines divided parts back together
 	public void I_Merge(int first, int mid, int last)
 	{
-		//You suppose  to complete this part (Given).
-		// Two adjacent sub-arrays
+		// DIVIDE: The array is already divided into two sorted sub-arrays
+		// Sub-array 1: lines_lengths[first..mid]
+		// Sub-array 2: lines_lengths[mid+1..last]
+
+		// Define boundaries of the two adjacent sorted sub-arrays
 		int beginHalf1 = first;
 		int endHalf1 = mid;
 		int beginHalf2 = mid + 1;
 		int endHalf2 = last;
 
-		// While both sub-arrays are not empty, copy the
-		// smaller item into the temporary array
+		// CONQUER: Merge the two sorted sub-arrays into tempArray
+		// Compare elements from both sub-arrays and copy smaller element
 		int index = beginHalf1; // Next available location in tempArray
 		for (; (beginHalf1 <= endHalf1) && (beginHalf2 <= endHalf2); index++)
 		{
 			// Invariant: tempArray[beginHalf1..index-1] is in order
+			// Compare front elements of both sub-arrays
 			if (lines_lengths[beginHalf1] < lines_lengths[beginHalf2])
 			{
+				// Element from first sub-array is smaller, copy it
 				tempArray[index] = lines_lengths[beginHalf1];
 				beginHalf1++;
 			}
 			else
 			{
+				// Element from second sub-array is smaller or equal, copy it
 				tempArray[index] = lines_lengths[beginHalf2];
 				beginHalf2++;
 			}
@@ -508,7 +543,8 @@ public class SortShow extends JPanel {
 		//redrawing the lines_lengths
 		//paintComponent(this.getGraphics());
 
-		// Finish off the nonempty sub-array
+		// CONQUER: Finish copying any remaining elements
+		// At this point, at least one sub-array is exhausted
 
 		// Finish off the first sub-array, if necessary
 		for (; beginHalf1 <= endHalf1; beginHalf1++, index++)
@@ -520,7 +556,8 @@ public class SortShow extends JPanel {
 			// Invariant: tempa[beginHalf1..index-1] is in order
 			tempArray[index] = lines_lengths[beginHalf2];
 
-		// Copy the result back into the original array
+		// CONQUER COMPLETE: Copy the merged result back into the original array
+		// The segment lines_lengths[first..last] is now sorted
 		for (index = first; index <= last; index++)
 			lines_lengths[index] = tempArray[index];
 	}

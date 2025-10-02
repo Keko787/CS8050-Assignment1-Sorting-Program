@@ -327,9 +327,12 @@ public class SortShow extends JPanel {
 		}
 		
 		//recursive merge sort method
+        // depth first approach, will go as deep as possible in every scenario
+        // and will eventually widen out based on the return calls
 		public void R_MergeSort(int first, int last){
             if(first < last){
 
+                // O(log n) Split the array into two and execute new function call
 				//You need to complete this part.
                 // Divide: init mid value between first and last
                 int mid = (first + last) / 2;
@@ -340,6 +343,7 @@ public class SortShow extends JPanel {
                 R_MergeSort(mid + 1, last);
 
                 // Conquer: Merge the Sorted Halves in first-mid and mid+1 - last
+                // o(n) due to going through the whole seqments to sort into new merged subarray
                 R_Merge(first, mid, last);
 
                 //redrawing the line_lengths
@@ -432,13 +436,13 @@ public class SortShow extends JPanel {
 		// Start with smallest segments (size 1) and progressively double the segment size
 		// This loop controls the "divide" by determining segment sizes: 1, 2, 4, 8, 16, ...
 		// Each iteration represents a level in the merge tree, working from leaves to root
-            //
+            // O(log n) due to dividing the array in the loop
 		for (int segmentLength = 1; segmentLength <= total_number_of_lines/2; segmentLength = 2*segmentLength)
 		{
 			// CONQUER PHASE:
 			// Merge all pairs of adjacent segments of current segmentLength
 			// Returns the index where leftover elements (that couldn't form a complete pair) begin
-			beginLeftovers = I_MergeSegmentPairs(total_number_of_lines, segmentLength);
+			beginLeftovers = I_MergeSegmentPairs(total_number_of_lines, segmentLength); // O(n) since it iterates through each seqment
 
 			// Handle partial leftover segment if it exists
 			int endSegment = beginLeftovers + segmentLength - 1;
@@ -478,6 +482,8 @@ public class SortShow extends JPanel {
 
 		// CONQUER:
 		// Merge each pair of adjacent segments
+        // Based on the amount of pairs needed
+        // for each pair, merge the segments based on the segment length
 		// This loop processes all complete pairs at the current segment size level
 		for (int count = 1; count <= numberOfPairs; count++)
 		{
@@ -508,6 +514,7 @@ public class SortShow extends JPanel {
 
 	// CONQUER PHASE - Merges two adjacent sorted segments into one sorted segment
 	// This is the core "Conquer" operation that combines divided parts back together
+    // sort the SEGMENTS into a new array based on the greatest to the least value
 	public void I_Merge(int first, int mid, int last)
 	{
 		// DIVIDE: The array is already divided into two sorted sub-arrays
@@ -585,9 +592,11 @@ public class SortShow extends JPanel {
         {
             // Get the chosen finalPivotIndex and sort the Partition in the array in respect
             // to the pivot using partition function, creating the sub arrays that are more sorted
-            int pivotIndex = partition(first, last);
+            int pivotIndex = partition(first, last); // O (N) will loop through the whole segment
+            // but this is nested inside the recursive calls so technically O(n log n) in some scenarios
 
             // Split the array into two rec. calls for the sub arrays
+            // O(log n) split the array into two
 
             // Sort smaller sub-array
             QuickSort(first, pivotIndex - 1);
